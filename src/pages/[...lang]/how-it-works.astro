@@ -1,0 +1,48 @@
+---
+import Page from '../../layouts/Page.astro';
+import { localeStaticPaths, strings, type Locale } from '../../i18n';
+
+export const getStaticPaths = localeStaticPaths;
+
+const { locale } = Astro.props as { locale: Locale };
+const t = strings(locale);
+const concepts = [
+  [t.how.knowledge, t.how.knowledgeText],
+  [t.how.instructions, t.how.instructionsText],
+  [t.how.roles, t.how.rolesText],
+  [t.how.workflows, t.how.workflowsText],
+  [t.how.checks, t.how.checksText],
+];
+const outputs = [t.how.output1, t.how.output2, t.how.output3, t.how.output4, t.how.output5];
+---
+
+<Page locale={locale} page="how-it-works" title={t.meta.howTitle} description={t.meta.howDescription}>
+  <section class="hero compact">
+    <h1>{t.how.title}</h1>
+    <p class="lede">{t.how.lede}</p>
+  </section>
+
+  <section class="prose">
+    <h2>{t.how.analogyTitle}</h2>
+    <p>{t.how.analogy1}</p>
+    <p>{t.how.analogy2}</p>
+
+    <h2>{t.how.conceptsTitle}</h2>
+    <table>
+      <thead>
+        <tr><th scope="col">{t.how.conceptHeader}</th><th scope="col">{t.how.meaningHeader}</th></tr>
+      </thead>
+      <tbody>
+        {concepts.map(([name, meaning]) => (
+          <tr><th scope="row">{name}</th><td>{meaning}</td></tr>
+        ))}
+      </tbody>
+    </table>
+
+    <h2>{t.how.outputTitle}</h2>
+    <ul>
+      {outputs.map((item) => <li>{item}</li>)}
+    </ul>
+    <p class="note">{t.how.note}</p>
+  </section>
+</Page>

@@ -1,0 +1,27 @@
+---
+import Page from '../../layouts/Page.astro';
+import { localeStaticPaths, strings, type Locale } from '../../i18n';
+
+export const getStaticPaths = localeStaticPaths;
+
+const { locale } = Astro.props as { locale: Locale };
+const t = strings(locale);
+---
+
+<Page locale={locale} page="status" title={t.meta.statusTitle} description={t.meta.statusDescription}>
+  <section class="hero compact">
+    <p class="eyebrow"><span class="badge">{t.status.phase}</span></p>
+    <h1>{t.status.title}</h1>
+    <p class="lede">{t.status.lede}</p>
+  </section>
+
+  <section class="prose">
+    <h2>{t.status.evidenceTitle}</h2>
+    <p>{t.status.evidence1}</p>
+    <p>{t.status.evidence2}</p>
+    <h2>{t.status.barTitle}</h2>
+    <p>{t.status.bar1}</p>
+    <h2>{t.status.codeTitle}</h2>
+    <p>{t.status.code1}</p>
+  </section>
+</Page>
