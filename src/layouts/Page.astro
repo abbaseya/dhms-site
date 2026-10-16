@@ -1,0 +1,82 @@
+---
+import '../styles/site.css';
+import { DEFAULT_LOCALE, LOCALES, localePath, strings, type Locale } from '../i18n';
+
+interface Props {
+  locale: Locale;
+  page: '' | 'how-it-works' | 'status';
+  title: string;
+  description: string;
+}
+
+const { locale, page, title, description } = Astro.props;
+const t = strings(locale);
+const { dir } = LOCALES[locale];
+const nav = [
+  { page: '', label: t.nav.home },
+  { page: 'how-it-works', label: t.nav.how },
+  { page: 'status', label: t.nav.status },
+] as const;
+const canonical = new URL(localePath(locale, page), Astro.site);
+---
+
+<!doctype html>
+<html lang={locale} dir={dir}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {(Object.keys(LOCALES) as Locale[]).map((other) => (
+      <link rel="alternate" hreflang={other} href={new URL(localePath(other, page), Astro.site)} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={new URL(localePath(DEFAULT_LOCALE, page), Astro.site)} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:type" content="website" />
+  </head>
+  <body>
+    <a class="skip" href="#main">{t.nav.skip}</a>
+    <header class="site-header">
+      <div class="wrap header-row">
+        <a class="brand" href={localePath(locale, '')}>{t.meta.siteName}</a>
+        <nav aria-label={t.nav.label}>
+          <ul>
+            {nav.map((item) => (
+              <li>
+                <a href={localePath(locale, item.page)} aria-current={item.page === page ? 'page' : undefined}>{item.label}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <ul class="languages" aria-label={t.nav.language}>
+          {(Object.keys(LOCALES) as Locale[]).map((other) => (
+            <li>
+              <a href={localePath(other, page)} lang={other} hreflang={other} aria-current={other === locale ? 'true' : undefined}>
+                {strings(other).meta.languageName}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </header>
+    <main id="main" class="wrap">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="wrap footer-row">
+        <p>{t.footer.madeBy} <a href="https://abbas.guru">{t.footer.author}</a></p>
+        <p>
+          <a href="https://agcs.dev">{t.footer.agc}</a>
+          <span aria-hidden="true"> · </span>
+          <a href="https://github.com/abbaseya">{t.footer.github}</a>
+          <span aria-hidden="true"> · </span>
+          <span>{t.footer.license}</span>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
