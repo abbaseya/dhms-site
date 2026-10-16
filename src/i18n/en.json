@@ -79,12 +79,14 @@
     "barTitle": "A clear bar",
     "bar1": "DHMS should be better than every other option. Before we build, we turn that into numbers: how fast someone gets a working helper, how often they finish a task, and how plain every word is.",
     "codeTitle": "Open work",
-    "code1": "The code will be public. This page will link to it when it is."
+    "code1": "The code will be public, on GitHub.",
+    "codeLink": "DHMS on GitHub"
   },
   "footer": {
     "madeBy": "Made by",
     "author": "Ahmed Abbas",
     "agc": "agcs.dev",
+    "aac": "aacos.dev",
     "github": "GitHub",
     "license": "MIT License"
   }
