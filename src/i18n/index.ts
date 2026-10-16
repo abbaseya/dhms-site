@@ -4,8 +4,8 @@ import ar from './ar.json';
 // Every visible string comes from one of these files. To add a language,
 // add its JSON file with the same keys and an entry in LOCALES.
 export const LOCALES = {
-  en: { name: 'English', dir: 'ltr', strings: en },
-  ar: { name: 'العربية', dir: 'rtl', strings: ar },
+  en: { dir: 'ltr', strings: en },
+  ar: { dir: 'rtl', strings: ar },
 } as const;
 
 export type Locale = keyof typeof LOCALES;

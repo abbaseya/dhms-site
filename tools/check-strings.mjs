@@ -9,11 +9,17 @@ import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const DIR = fileURLToPath(new URL('../src/i18n/', import.meta.url));
-const BANNED = /\b(skills?|hooks?|subagents?|plugins?|mcp|claude\.md|agents\.md)\b/i;
+// English names match as whole words with their plural and joined forms. The
+// Arabic names are the usual translations of the same primitives.
+const BANNED = [
+  /\b(skill(s|set|sets)?|hooks?|sub-?agents?|plugins?|mcps?|claude\.md|agents\.md)\b/i,
+  /(مهارة|مهارات|خطاف|خطافات|وكيل فرعي|وكلاء فرعيون|إضافة برمجية|إضافات برمجية)/,
+];
 
-// leaves <object>: every string value with its dotted key.
+// leaves <value>: every leaf with its dotted key. A leaf that is not a string,
+// such as null or a number, is kept so the check can report it.
 function leaves(value, prefix = '') {
-  if (typeof value === 'string') return [[prefix, value]];
+  if (value === null || typeof value !== 'object') return [[prefix, value]];
   return Object.entries(value).flatMap(([key, inner]) => leaves(inner, prefix ? `${prefix}.${key}` : key));
 }
 
@@ -26,8 +32,12 @@ for (const [file, entries] of Object.entries(strings)) {
   for (const key of reference) if (!keys.has(key)) errors.push(`${file}: missing ${key}`);
   for (const key of keys) if (!reference.has(key)) errors.push(`${file}: extra ${key}`);
   for (const [key, text] of entries) {
+    if (typeof text !== 'string') {
+      errors.push(`${file}: ${key} is not a string`);
+      continue;
+    }
     if (text.trim() === '') errors.push(`${file}: ${key} is empty`);
-    if (BANNED.test(text)) errors.push(`${file}: ${key} names a technical primitive: ${text}`);
+    if (BANNED.some((pattern) => pattern.test(text))) errors.push(`${file}: ${key} names a technical primitive: ${text}`);
   }
 }
 for (const error of errors) console.error(error);

@@ -1,6 +1,7 @@
 {
   "meta": {
     "siteName": "DHMS",
+    "languageName": "العربية",
     "homeTitle": "DHMS — مدير محتوى لمساعدك الذكي",
     "homeDescription": "أدِر ما يعرفه مساعدك الذكي وما يجب عليه فعله، بكلمات بسيطة. مجاني، بأي لغة، وعلى كل جهاز.",
     "howTitle": "كيف يعمل — DHMS",
@@ -82,6 +83,7 @@
   },
   "footer": {
     "madeBy": "صنعه",
+    "author": "Ahmed Abbas",
     "agc": "agcs.dev",
     "github": "GitHub",
     "license": "رخصة MIT"

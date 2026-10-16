@@ -1,6 +1,7 @@
 {
   "meta": {
     "siteName": "DHMS",
+    "languageName": "English",
     "homeTitle": "DHMS — a content manager for your AI helper",
     "homeDescription": "Manage what your AI helper knows and must do, in plain words. Free, in any language, on every device.",
     "howTitle": "How it works — DHMS",
@@ -82,6 +83,7 @@
   },
   "footer": {
     "madeBy": "Made by",
+    "author": "Ahmed Abbas",
     "agc": "agcs.dev",
     "github": "GitHub",
     "license": "MIT License"
